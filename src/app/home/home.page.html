@@ -1,20 +1,55 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Avaliação diagnóstica Angular
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Cadastro de Clientes</ion-card-title>
+    </ion-card-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <ion-card-content>
+      <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+        <ion-list>
+          <ion-item>
+            <ion-input placeholder="Nome" formControlName="nome"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input placeholder="CPF" formControlName="cpf" mask="000.000.000-00"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="clienteForm.get('cpf').hasError('cpfInvalido') && clienteForm.get('cpf').touched">
+            CPF inválido
+          </ion-text>
+          <br>
+          <ion-item>
+            <ion-input type="date" placeholder="Data de Nascimento" formControlName="dataNascimento"></ion-input>
+          </ion-item>
+          <ion-button expand="full" type="submit" [disabled]="clienteForm.invalid">
+            Cadastrar Cliente
+          </ion-button>
+        </ion-list>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="clientes.length > 0">
+    <ion-card-header>
+      <ion-card-title>Clientes Cadastrados</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let cliente of clientes">
+          <ion-label>
+            <h2>{{ cliente.nome }}</h2>
+            <p>CPF: {{ cliente.cpf }}</p>
+            <p>Data de Nascimento: {{ cliente.dataNascimento}}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
